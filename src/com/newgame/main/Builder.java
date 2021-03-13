@@ -6,13 +6,17 @@ import java.awt.image.BufferStrategy;
 
 public class Builder extends Canvas implements Runnable {
 
-    public static final int WIDTH = 1920, HEIGHT = WIDTH / 12 * 9;
+    public static final int WIDTH = 1080, HEIGHT = WIDTH / 16 * 9;
     private Thread thread;
     private boolean running = false;
+
+    private Handler handler;
 
     public Builder() {
         new Frame(WIDTH, HEIGHT, "GAME", this);
 
+        handler = new Handler();
+        handler.addObject(new Player(100, 100, ID.Player));
     }
 
     public synchronized void start() {
@@ -60,7 +64,7 @@ public class Builder extends Canvas implements Runnable {
     }
 
     private void tick() {
-
+    handler.tick();
 
 
     }
@@ -77,12 +81,14 @@ public class Builder extends Canvas implements Runnable {
         g.setColor(Color.black);
         g.fillRect(0,0, WIDTH, HEIGHT);
 
+        handler.render(g);
+
         g.dispose();
         bs.show();
     }
 
     public static void main(String[] args) {
-
+        new Builder();
 
 
     }
